@@ -57,6 +57,12 @@ public class TaskController {
         return new ResponseEntity<>(updatedTaskDto, HttpStatus.OK);
     }
 
+    @PostMapping("/done/{id}")
+    public ResponseEntity<Integer> doneTask(@PathVariable Long id) {
+        taskService.doneTask(id);
+        return new ResponseEntity<>(1,HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);

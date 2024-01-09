@@ -28,6 +28,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTask(Task task) {
+        task.setStatus("PENDING");
         return taskRepository.save(task);
     }
 
@@ -36,12 +37,22 @@ public class TaskServiceImpl implements TaskService {
         Task existingTask = getTaskById(id);
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
+        existingTask.setStatus(task.getStatus());
+        existingTask.setPriority(task.getPriority());
         return taskRepository.save(existingTask);
     }
 
     @Override
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    @Override
+    public void doneTask(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(()->new NoSuchElementException("Task not found with ID: " + id));
+        task.setStatus("DONE");
+
+        taskRepository.save(task);
     }
 
 
